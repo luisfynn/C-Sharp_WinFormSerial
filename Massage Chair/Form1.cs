@@ -9,6 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.IO.Ports;
+using System.Drawing;
+using System.Resources;
 using System.Threading;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
@@ -17,6 +19,11 @@ namespace Massage_Chair
 {
     public partial class Form1 : Form
     {
+        const int btLocHeight = 410;
+        const int btSizeWidth = 18;
+        const int btSizeHeight = 22;
+        const int btFirstX = 125;
+        const int btInverval = 24;
         /// <summary>
         /// Class to keep track of string and color for lines in output window.
         /// </summary>
@@ -174,6 +181,7 @@ namespace Massage_Chair
         Line outputList_Add(string str, Color color)
         {
             Line newLine = new Line(str, color);
+            /*
             lines.Add(newLine);
 
             if (outputList_ApplyFilter(newLine.Str))
@@ -181,20 +189,36 @@ namespace Massage_Chair
                 //outputList.Items.Add(newLine);
                 //outputList_Scroll();
             }
+            */
 
             return newLine;
         }
 
+        static int outputcount = 0;
         /// <summary>
         /// Update a line in the output window.
         /// </summary>
         /// <param name="line">line to update</param>
         void outputList_Update(Line line)
         {
+            outputcount++;
+
             //outputList.Items.Add(line.Str);
             //outputList.Text += line.Str;
-            var replace = line.Str.Replace("24 42 46", Environment.NewLine + "24 42 46");
-            richTextBox1.Text = replace;
+            var replace = line.Str.Replace("24 41 52", Environment.NewLine + "24 41 52");
+
+            if(outputcount > 100)
+            {
+                outputcount = 0;
+                richTextBox1.Text = " ";
+            }
+            else
+            {
+                richTextBox1.Text = " ";
+                richTextBox1.AppendText(replace);
+            }
+  
+            //richTextBox1.Text = replace;
 #if false
             // should we add to output?
             if (outputList_ApplyFilter(line.Str))
@@ -421,7 +445,7 @@ namespace Massage_Chair
             // if we have a partial line, add to it.
             if (partialLine != null)
             {
-                rxCount++;
+                //rxCount++;
 
                 // tack it on
                 if (rxCount >= 50)
@@ -435,6 +459,9 @@ namespace Massage_Chair
                 }
              
                 outputList_Update(partialLine);
+
+                //ComPort com = ComPort.Instance;
+                //com.DiscardInBuffer();
 
                 return partialLine;
             }
@@ -488,9 +515,25 @@ namespace Massage_Chair
                 partialLine = AddData(dataIn);
             }
 
+            //ComPort com = ComPort.Instance;
+            //com.DiscardInBuffer();
+
             // restore scrolling
             scrolling = saveScrolling;
-            //outputList_Scroll();
+            outputList_Scroll();
+        }
+
+        /// <summary>
+        /// Scroll to bottom of output window
+        /// </summary>
+        void outputList_Scroll()
+        {
+            if (scrolling)
+            {
+                richTextBox1.ScrollToCaret();
+                // itemsPerPage = (int)(richTextBox1.Height / outputList.ItemHeight);
+                //outputList.TopIndex = outputList.Items.Count - itemsPerPage;
+            }
         }
 
         /// <summary>
@@ -511,7 +554,7 @@ namespace Massage_Chair
         private void Form1_Load(object sender, EventArgs e)
         {
             this.TopMost = false;
-            this.AutoSize = true;
+            this.AutoSize = false;
             this.AutoSizeMode = AutoSizeMode.GrowOnly;
             this.AutoScaleMode = AutoScaleMode.Inherit;
 
@@ -523,6 +566,200 @@ namespace Massage_Chair
             this.txtSend.Multiline = false;
             this.txtSend.ReadOnly = false;
 
+            this.pictureBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            this.button22.Click += new System.EventHandler(this.button22_Click);
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+
+            this.button26.Click += new System.EventHandler(this.button26_Click);
+            this.button27.Click += new System.EventHandler(this.button27_Click);
+            this.button28.Click += new System.EventHandler(this.button28_Click);
+            this.button29.Click += new System.EventHandler(this.button29_Click);
+            this.button30.Click += new System.EventHandler(this.button30_Click);
+
+            this.button31.Click += new System.EventHandler(this.button31_Click);
+
+            this.button1.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button2.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button3.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button4.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button5.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button6.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button7.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button8.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button9.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button10.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button11.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button12.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button13.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button14.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button15.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button16.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button17.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button18.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button19.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button20.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button21.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button22.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button23.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button24.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button25.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button26.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button27.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button28.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button29.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button30.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button31.Size = new Size(btSizeWidth, btSizeHeight);
+
+            this.button1.Location = new Point(btFirstX, btLocHeight);
+            this.button2.Location = new Point(btFirstX + btInverval, btLocHeight);
+            this.button3.Location = new Point(btFirstX + btInverval * 2, btLocHeight);
+            this.button4.Location = new Point(btFirstX + btInverval * 3, btLocHeight);
+            this.button5.Location = new Point(btFirstX + btInverval * 4, btLocHeight);
+            this.button6.Location = new Point(btFirstX + btInverval * 5, btLocHeight);
+            this.button7.Location = new Point(btFirstX + btInverval * 6, btLocHeight);
+            this.button8.Location = new Point(btFirstX + btInverval * 7, btLocHeight);
+            this.button9.Location = new Point(btFirstX + btInverval * 8, btLocHeight);
+            this.button10.Location = new Point(btFirstX + btInverval * 9, btLocHeight);
+
+            this.button11.Location = new Point(btFirstX + btInverval * 10, btLocHeight);
+            this.button12.Location = new Point(btFirstX + btInverval * 11, btLocHeight);
+            this.button13.Location = new Point(btFirstX + btInverval * 12, btLocHeight);
+            this.button14.Location = new Point(btFirstX + btInverval * 13, btLocHeight);
+            this.button15.Location = new Point(btFirstX + btInverval * 14, btLocHeight);
+            this.button16.Location = new Point(btFirstX + btInverval * 15, btLocHeight);
+            this.button17.Location = new Point(btFirstX + btInverval * 16, btLocHeight);
+            this.button18.Location = new Point(btFirstX + btInverval * 17, btLocHeight);
+            this.button19.Location = new Point(btFirstX + btInverval * 18, btLocHeight);
+            this.button20.Location = new Point(btFirstX + btInverval * 19, btLocHeight);
+
+            this.button21.Location = new Point(btFirstX + btInverval * 20, btLocHeight);
+            this.button22.Location = new Point(btFirstX + btInverval * 21, btLocHeight);
+            this.button23.Location = new Point(btFirstX + btInverval * 22, btLocHeight);
+            this.button24.Location = new Point(btFirstX + btInverval * 23, btLocHeight);
+            this.button25.Location = new Point(btFirstX + btInverval * 24, btLocHeight);
+            this.button26.Location = new Point(btFirstX + btInverval * 25, btLocHeight);
+            this.button27.Location = new Point(btFirstX + btInverval * 26, btLocHeight);
+            this.button28.Location = new Point(btFirstX + btInverval * 27, btLocHeight);
+            this.button29.Location = new Point(btFirstX + btInverval * 28, btLocHeight);
+            this.button30.Location = new Point(btFirstX + btInverval * 29, btLocHeight);
+
+            this.button31.Location = new Point(btFirstX + btInverval * 30, btLocHeight);
+
+            this.button1.Text = "1";
+            this.button2.Text = "2";
+            this.button3.Text = "3";
+            this.button4.Text = "4";
+            this.button5.Text = "5";
+            this.button6.Text = "6";
+            this.button7.Text = "7";
+            this.button8.Text = "8";
+            this.button9.Text = "9";
+            this.button10.Text = "0";
+
+            this.button11.Text = "1";
+            this.button12.Text = "2";
+            this.button13.Text = "3";
+            this.button14.Text = "4";
+            this.button15.Text = "5";
+            this.button16.Text = "6";
+            this.button17.Text = "7";
+            this.button18.Text = "8";
+            this.button19.Text = "9";
+            this.button20.Text = "0";
+
+            this.button21.Text = "1";
+            this.button22.Text = "2";
+            this.button23.Text = "3";
+            this.button24.Text = "4";
+            this.button25.Text = "5";
+            this.button26.Text = "6";
+            this.button27.Text = "7";
+            this.button28.Text = "8";
+            this.button29.Text = "9";
+            this.button30.Text = "0";
+
+            this.button31.Text = "1";
+
+            this.button1.Font = new Font("굴림", 7F);
+            this.button2.Font = new Font("굴림", 7F);
+            this.button3.Font = new Font("굴림", 7F);
+            this.button4.Font = new Font("굴림", 7F);
+            this.button5.Font = new Font("굴림", 7F);
+
+            this.button6.Font = new Font("굴림", 7F);
+            this.button7.Font = new Font("굴림", 7F);
+            this.button8.Font = new Font("굴림", 7F);
+            this.button9.Font = new Font("굴림", 7F);
+            this.button10.Font = new Font("굴림", 7F);
+
+            this.button11.Font = new Font("굴림", 7F);
+            this.button12.Font = new Font("굴림", 7F);
+            this.button13.Font = new Font("굴림", 7F);
+            this.button14.Font = new Font("굴림", 7F);
+            this.button15.Font = new Font("굴림", 7F);
+
+            this.button16.Font = new Font("굴림", 7F);
+            this.button17.Font = new Font("굴림", 7F);
+            this.button18.Font = new Font("굴림", 7F);
+            this.button19.Font = new Font("굴림", 7F);
+            this.button20.Font = new Font("굴림", 7F);
+
+            this.button21.Font = new Font("굴림", 7F);
+            this.button22.Font = new Font("굴림", 7F);
+            this.button23.Font = new Font("굴림", 7F);
+            this.button24.Font = new Font("굴림", 7F);
+            this.button25.Font = new Font("굴림", 7F);
+
+            this.button26.Font = new Font("굴림", 7F);
+            this.button27.Font = new Font("굴림", 7F);
+            this.button28.Font = new Font("굴림", 7F);
+            this.button29.Font = new Font("굴림", 7F);
+            this.button30.Font = new Font("굴림", 7F);
+
+            this.button31.Font = new Font("굴림", 7F);
+#if false
+            this.checkBox1.Checked = true;
+            this.checkBox2.Checked = true;
+            this.checkBox3.Checked = true;
+
+            this.checkBox1.CheckState = CheckState.Checked;
+            this.checkBox2.CheckState = CheckState.Checked;
+            this.checkBox3.CheckState = CheckState.Checked;
+#endif
             btnOpen.Text = "connect".ToString();
 
             ComPort com = ComPort.Instance;
@@ -687,6 +924,7 @@ namespace Massage_Chair
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            outputList_ClearAll();
             richTextBox1.Clear();
             txtSend.Clear();
         }
@@ -743,7 +981,7 @@ namespace Massage_Chair
                     tBoxLegCtl.Text = "stop".ToString();
                 }             
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 gLegCtl.GLegStart = false;
                 txtSend.Clear();
@@ -783,7 +1021,7 @@ namespace Massage_Chair
                     tBoxCalfCtl.Text = "stop".ToString();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 gLegCtl.GCalfStart = false;
                 txtSend.Clear();
@@ -822,17 +1060,12 @@ namespace Massage_Chair
                     tBoxSoleCtl.Text = "stop".ToString();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 gLegCtl.GSoleStart = false;
                 txtSend.Clear();
                 MessageBox.Show("serial port를 연결해주세요");
             }
-        }
-
-        private void ComboPort_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 #endregion
 
@@ -847,5 +1080,225 @@ namespace Massage_Chair
                 //com = null;
             }
         }
+
+#if true
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._1;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._2;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._3_1;
+            //this.pictureBox1.Image = Properties.Resources._3_2;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._4;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._5;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._6;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._7;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._8;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._9;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._10;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._11;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._12;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._13;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._14;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._15;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._16;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._17;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._18;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._19;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._20;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._21;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._22;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._23;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._24;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._25;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._26;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._27;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._28;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._29;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._30;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+
+        private void button31_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Show();
+            this.pictureBox1.Image = Properties.Resources._31;
+            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+#endif
     }
 }

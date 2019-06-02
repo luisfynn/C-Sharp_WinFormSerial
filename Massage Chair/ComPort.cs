@@ -68,7 +68,7 @@ namespace Massage_Chair
             _serialPort.DiscardInBuffer();
         }
 
-        private void StartReading()
+        protected  void StartReading()
         {
             if (!_keepReading)
             {
@@ -106,7 +106,8 @@ namespace Massage_Chair
                         // is available on the port, up until the ReadTimeout milliseconds
                         // have elapsed, at which time a TimeoutException will be thrown.
                         int count = _serialPort.Read(readBuffer, 0, _serialPort.ReadBufferSize);
-                        String SerialIn = System.Text.Encoding.ASCII.GetString(readBuffer, 0, count);
+                        //String SerialIn = System.Text.Encoding.Default.GetString(readBuffer, 0, count);
+                        String SerialIn = System.Text.Encoding.UTF7.GetString(readBuffer, 0, count);
                         DataReceived(SerialIn);
                        
                         //_serialPort.DiscardInBuffer();
@@ -127,6 +128,8 @@ namespace Massage_Chair
         {
             SerialPort sp = (SerialPort)sender;
             string indata = sp.ReadExisting();
+
+            //sp.DiscardInBuffer();
         }
 
         /// <summary> Open the serial port with current settings. </summary>

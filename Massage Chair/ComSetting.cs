@@ -33,7 +33,7 @@ namespace Massage_Chair
                 AppendCRLF
             }
             public static AppendType AppendToSend = AppendType.AppendCR;
-            public static bool HexOutput = false;
+            public static bool HexOutput = true;
             public static bool MonoFont = true;
             public static bool LocalEcho = true;
             public static bool StayOnTop = false;
