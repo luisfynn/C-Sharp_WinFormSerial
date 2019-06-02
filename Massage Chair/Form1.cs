@@ -566,7 +566,7 @@ namespace Massage_Chair
             this.txtSend.Multiline = false;
             this.txtSend.ReadOnly = false;
 
-            this.pictureBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+            //this.pictureBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
 
             this.button1.Click += new System.EventHandler(this.button1_Click);
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -605,6 +605,7 @@ namespace Massage_Chair
             this.button30.Click += new System.EventHandler(this.button30_Click);
 
             this.button31.Click += new System.EventHandler(this.button31_Click);
+            this.button32.Click += new System.EventHandler(this.button32_Click);
 
             this.button1.Size = new Size(btSizeWidth, btSizeHeight);
             this.button2.Size = new Size(btSizeWidth, btSizeHeight);
@@ -643,6 +644,7 @@ namespace Massage_Chair
             this.button30.Size = new Size(btSizeWidth, btSizeHeight);
 
             this.button31.Size = new Size(btSizeWidth, btSizeHeight);
+            this.button32.Size = new Size(btSizeWidth, btSizeHeight);
 
             this.button1.Location = new Point(btFirstX, btLocHeight);
             this.button2.Location = new Point(btFirstX + btInverval, btLocHeight);
@@ -678,6 +680,7 @@ namespace Massage_Chair
             this.button30.Location = new Point(btFirstX + btInverval * 29, btLocHeight);
 
             this.button31.Location = new Point(btFirstX + btInverval * 30, btLocHeight);
+            this.button32.Location = new Point(btFirstX - btInverval , btLocHeight);
 
             this.button1.Text = "1";
             this.button2.Text = "2";
@@ -713,6 +716,8 @@ namespace Massage_Chair
             this.button30.Text = "0";
 
             this.button31.Text = "1";
+
+            this.button32.Text = "L";
 
             this.button1.Font = new Font("굴림", 7F);
             this.button2.Font = new Font("굴림", 7F);
@@ -751,6 +756,7 @@ namespace Massage_Chair
             this.button30.Font = new Font("굴림", 7F);
 
             this.button31.Font = new Font("굴림", 7F);
+            this.button32.Font = new Font("굴림", 7F);
 #if false
             this.checkBox1.Checked = true;
             this.checkBox2.Checked = true;
@@ -1082,222 +1088,241 @@ namespace Massage_Chair
         }
 
 #if true
+        void frm2_WriteTextEvent(string text, EventArgs e)
+        {
+            //this.textBox2.Text = text;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._1;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            //this.pictureBox1.Show();
+            //this.pictureBox1.Image = Properties.Resources._1;
+            //this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            Form2 picture = new Form2();
+            picture.Show();
+            //frm2.WriteTextEvent += new Form2.TextEventHandler(frm2_WriteTextEvent);  // 델리게이트를 통한 이벤트 등록
+            picture.received2(button1.Text); //Form2로 데이터 전달
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._2;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            //this.pictureBox1.Show();
+            //this.pictureBox1.Image = Properties.Resources._2;
+            //this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button2.Text); //Form2로 데이터 전달
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._3_1;
-            //this.pictureBox1.Image = Properties.Resources._3_2;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button3.Text); //Form2로 데이터 전달
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._4;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button4.Text); //Form2로 데이터 전달
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._5;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button5.Text); //Form2로 데이터 전달
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._6;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button6.Text); //Form2로 데이터 전달
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._7;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button7.Text); //Form2로 데이터 전달
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._8;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button8.Text); //Form2로 데이터 전달
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._9;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button9.Text); //Form2로 데이터 전달
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._10;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2("1" + button10.Text); //Form2로 데이터 전달
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._11;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button11.Text); //Form2로 데이터 전달
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._12;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button12.Text); //Form2로 데이터 전달
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._13;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button13.Text); //Form2로 데이터 전달
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._14;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button14.Text); //Form2로 데이터 전달
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._15;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button15.Text); //Form2로 데이터 전달
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._16;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button16.Text); //Form2로 데이터 전달
         }
 
         private void button17_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._17;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button17.Text); //Form2로 데이터 전달
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._18;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button18.Text); //Form2로 데이터 전달
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._19;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button19.Text); //Form2로 데이터 전달
         }
 
         private void button20_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._20;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2("2" + button20.Text); //Form2로 데이터 전달
         }
 
         private void button21_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._21;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button21.Text); //Form2로 데이터 전달
         }
 
         private void button22_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._22;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button22.Text); //Form2로 데이터 전달
         }
 
         private void button23_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._23;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button23.Text); //Form2로 데이터 전달
         }
 
         private void button24_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._24;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button24.Text); //Form2로 데이터 전달
         }
 
         private void button25_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._25;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button25.Text); //Form2로 데이터 전달
         }
 
         private void button26_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._26;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button26.Text); //Form2로 데이터 전달
         }
 
         private void button27_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._27;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button27.Text); //Form2로 데이터 전달
         }
 
         private void button28_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._28;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button28.Text); //Form2로 데이터 전달
         }
 
         private void button29_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._29;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button29.Text); //Form2로 데이터 전달
         }
 
         private void button30_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._30;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2("3" + button30.Text); //Form2로 데이터 전달
         }
 
         private void button31_Click(object sender, EventArgs e)
         {
-            this.pictureBox1.Show();
-            this.pictureBox1.Image = Properties.Resources._31;
-            this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button31.Text); //Form2로 데이터 전달
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+            Form2 picture = new Form2();
+            picture.Show();
+            picture.received2(button32.Text); //Form2로 데이터 전달
         }
 #endif
     }
