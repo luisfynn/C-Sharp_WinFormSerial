@@ -60,6 +60,8 @@ namespace Massage_Chair
         {
             InitializeComponent();
 
+            this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true); this.SetStyle(ControlStyles.SupportsTransparentBackColor, true); this.UpdateStyles();
+
             //splitContainer1.FixedPanel = FixedPanel.Panel1;
             //splitContainer2.FixedPanel = FixedPanel.Panel2;
 
@@ -205,19 +207,23 @@ namespace Massage_Chair
 
             //outputList.Items.Add(line.Str);
             //outputList.Text += line.Str;
+
+            this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            this.UpdateStyles();
+
             var replace = line.Str.Replace("24 41 52", Environment.NewLine + "24 41 52");
 
-            if(outputcount > 100)
+            if(outputcount > 30)
             {
                 outputcount = 0;
                 richTextBox1.Text = " ";
             }
             else
             {
-                richTextBox1.Text = " ";
+                //richTextBox1.Text = " ";
                 richTextBox1.AppendText(replace);
             }
-  
             //richTextBox1.Text = replace;
 #if false
             // should we add to output?
@@ -1175,63 +1181,63 @@ namespace Massage_Chair
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button11.Text); //Form2로 데이터 전달
+            picture.received2("1" + button11.Text); //Form2로 데이터 전달
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button12.Text); //Form2로 데이터 전달
+            picture.received2("1" + button12.Text); //Form2로 데이터 전달
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button13.Text); //Form2로 데이터 전달
+            picture.received2("1" + button13.Text); //Form2로 데이터 전달
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button14.Text); //Form2로 데이터 전달
+            picture.received2("1" + button14.Text); //Form2로 데이터 전달
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button15.Text); //Form2로 데이터 전달
+            picture.received2("1" + button15.Text); //Form2로 데이터 전달
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button16.Text); //Form2로 데이터 전달
+            picture.received2("1" + button16.Text); //Form2로 데이터 전달
         }
 
         private void button17_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button17.Text); //Form2로 데이터 전달
+            picture.received2("1" + button17.Text); //Form2로 데이터 전달
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button18.Text); //Form2로 데이터 전달
+            picture.received2("1" + button18.Text); //Form2로 데이터 전달
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button19.Text); //Form2로 데이터 전달
+            picture.received2("1" + button19.Text); //Form2로 데이터 전달
         }
 
         private void button20_Click(object sender, EventArgs e)
@@ -1245,63 +1251,63 @@ namespace Massage_Chair
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button21.Text); //Form2로 데이터 전달
+            picture.received2("2" + button21.Text); //Form2로 데이터 전달
         }
 
         private void button22_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button22.Text); //Form2로 데이터 전달
+            picture.received2("2" + button22.Text); //Form2로 데이터 전달
         }
 
         private void button23_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button23.Text); //Form2로 데이터 전달
+            picture.received2("2" + button23.Text); //Form2로 데이터 전달
         }
 
         private void button24_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button24.Text); //Form2로 데이터 전달
+            picture.received2("2" + button24.Text); //Form2로 데이터 전달
         }
 
         private void button25_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button25.Text); //Form2로 데이터 전달
+            picture.received2("2" + button25.Text); //Form2로 데이터 전달
         }
 
         private void button26_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button26.Text); //Form2로 데이터 전달
+            picture.received2("2" + button26.Text); //Form2로 데이터 전달
         }
 
         private void button27_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button27.Text); //Form2로 데이터 전달
+            picture.received2("2" + button27.Text); //Form2로 데이터 전달
         }
 
         private void button28_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button28.Text); //Form2로 데이터 전달
+            picture.received2("2" + button28.Text); //Form2로 데이터 전달
         }
 
         private void button29_Click(object sender, EventArgs e)
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button29.Text); //Form2로 데이터 전달
+            picture.received2("2" + button29.Text); //Form2로 데이터 전달
         }
 
         private void button30_Click(object sender, EventArgs e)
@@ -1315,7 +1321,7 @@ namespace Massage_Chair
         {
             Form2 picture = new Form2();
             picture.Show();
-            picture.received2(button31.Text); //Form2로 데이터 전달
+            picture.received2("3" + button31.Text); //Form2로 데이터 전달
         }
 
         private void button32_Click(object sender, EventArgs e)
