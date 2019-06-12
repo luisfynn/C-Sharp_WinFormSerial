@@ -98,6 +98,7 @@
             this.button31 = new System.Windows.Forms.Button();
             this.button32 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button33 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -253,12 +254,11 @@
             // 
             // txtSend
             // 
+            this.txtSend.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtSend.Location = new System.Drawing.Point(3, 294);
             this.txtSend.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtSend.Multiline = true;
             this.txtSend.Name = "txtSend";
-            this.txtSend.ReadOnly = true;
-            this.txtSend.Size = new System.Drawing.Size(1218, 29);
+            this.txtSend.Size = new System.Drawing.Size(928, 25);
             this.txtSend.TabIndex = 13;
             // 
             // lbDataBit
@@ -796,13 +796,25 @@
             this.pictureBox1.TabIndex = 66;
             this.pictureBox1.TabStop = false;
             // 
+            // button33
+            // 
+            this.button33.Location = new System.Drawing.Point(951, 294);
+            this.button33.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button33.Name = "button33";
+            this.button33.Size = new System.Drawing.Size(110, 29);
+            this.button33.TabIndex = 67;
+            this.button33.Text = "Send";
+            this.button33.UseVisualStyleBackColor = true;
+            this.button33.Click += new System.EventHandler(this.button33_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(1290, 842);
+            this.ClientSize = new System.Drawing.Size(1307, 842);
+            this.Controls.Add(this.button33);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button32);
             this.Controls.Add(this.button27);
@@ -944,6 +956,7 @@
         private System.Windows.Forms.Button button31;
         private System.Windows.Forms.Button button32;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button33;
     }
 }
 

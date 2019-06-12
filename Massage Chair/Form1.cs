@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Collections;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.IO.Ports;
-using System.Drawing;
-using System.Resources;
-using System.Threading;
-using System.Windows.Input;
-using System.Runtime.InteropServices;
 
 namespace Massage_Chair
 {
@@ -24,6 +15,14 @@ namespace Massage_Chair
         const int btSizeHeight = 22;
         const int btFirstX = 125;
         const int btInverval = 24;
+
+        public static Form1 Instance
+        {
+            get
+            {
+                return Instance;
+            }
+        }
         /// <summary>
         /// Class to keep track of string and color for lines in output window.
         /// </summary>
@@ -153,7 +152,6 @@ namespace Massage_Chair
         {
             lines.Clear();
             partialLine = null;
-
             //outputList.Items.Clear();
         }
 
@@ -427,7 +425,6 @@ namespace Massage_Chair
             return StringOut;
         }
 
-
         /// <summary>
         /// Partial line for AddData().
         /// </summary>
@@ -479,48 +476,54 @@ namespace Massage_Chair
         public void OnDataReceived(string dataIn)
         {
             //Handle multi-threading
+            //InvokeRequired : 다른 쓰레드로부터 호출되어 invoke가 필요한 상태를 체크해서 true, false로 리턴
+            //invoke가 필요한 상태일 때, invoke 메서드에 의해 호출될 OnDataReceived 를 델리게이트(함수포인터)로 넘겨서 실행시키면, 안정적으로
+            //UI 갱신
+
             if (InvokeRequired)
             {
-                Invoke(new StringDelegate(OnDataReceived), new object[] { dataIn });
-                //label3.Text = "1".ToString();
+                StringDelegate _sdg = new StringDelegate(OnDataReceived);
+                Invoke(_sdg, new object[] { dataIn });
+                //Invoke(new StringDelegate(OnDataReceived), new object[] { dataIn });
                 return;
             }
             else
             {
-                //label3.Text = "0".ToString();
+#if true
+                //pause scrolling to speed up output of multiple lines
+                bool saveScrolling = scrolling;
+                //scrolling = false;
+                scrolling = true;
+
+                // if we detect a line terminator, add line to output
+                int index;
+
+                while (dataIn.Length > 0 &&
+                    ((index = dataIn.IndexOf("\r")) != -1 ||
+                    (index = dataIn.IndexOf("\n")) != -1))
+                {
+
+                    String StringIn = dataIn.Substring(0, index);
+                    dataIn = dataIn.Remove(0, index + 1);
+
+                    logFile_writeLine(AddData(StringIn).Str);
+                    partialLine = null; // terminate partial line
+                }
+
+                // if we have data remaining, add a partial line
+                if (dataIn.Length > 0)
+                {
+                    partialLine = AddData(dataIn);
+                }
+
+                //ComPort com = ComPort.Instance;
+                //com.DiscardInBuffer();
+
+                // restore scrolling
+                scrolling = saveScrolling;
+                outputList_Scroll();
             }
-
-            // pause scrolling to speed up output of multiple lines
-            bool saveScrolling = scrolling;
-            scrolling = false;
-
-            // if we detect a line terminator, add line to output
-            int index;
-
-            while(dataIn.Length > 0 &&
-                ((index = dataIn.IndexOf("\r")) != -1 ||
-                (index = dataIn.IndexOf("\n")) != -1))
-            {
-            
-                String StringIn = dataIn.Substring(0, index);
-                dataIn = dataIn.Remove(0, index + 1);
-
-                logFile_writeLine(AddData(StringIn).Str);
-                partialLine = null;	// terminate partial line
-            }
-
-            // if we have data remaining, add a partial line
-            if (dataIn.Length > 0)
-            {
-                partialLine = AddData(dataIn);
-            }
-
-            //ComPort com = ComPort.Instance;
-            //com.DiscardInBuffer();
-
-            // restore scrolling
-            scrolling = saveScrolling;
-            outputList_Scroll();
+#endif
         }
 
         /// <summary>
@@ -530,7 +533,7 @@ namespace Massage_Chair
         {
             if (scrolling)
             {
-                richTextBox1.ScrollToCaret();
+                //richTextBox1.ScrollToCaret();
                 // itemsPerPage = (int)(richTextBox1.Height / outputList.ItemHeight);
                 //outputList.TopIndex = outputList.Items.Count - itemsPerPage;
             }
@@ -1323,6 +1326,39 @@ namespace Massage_Chair
             Form2 picture = new Form2();
             picture.Show();
             picture.received2(button32.Text); //Form2로 데이터 전달
+        }
+
+        private void button33_Click(object sender, EventArgs e)
+        {
+            // HEXA 로 보낼때 필요한 변수
+            byte[] byteSendData = new byte[200];
+            int iSendCount = 0;  // 헥사로 보낼때의 데이터 수
+
+            ComPort com = ComPort.Instance;
+
+            try
+            {
+                if (true == checkBox1.Checked) // 헥사로 보낸다면
+                {
+                    foreach (string s in txtSend.Text.Split(' '))
+                    {
+                        if (null != s && "" != s)
+                            byteSendData[iSendCount++] = Convert.ToByte(s, 16);
+                    }
+                    com.Send(byteSendData, 0, iSendCount);
+                   // m_sp1.Write(byteSendData, 0, iSendCount);
+                }
+                else
+                {
+                    // string을 그대로 보내기
+                    com.Send(txtSend.Text);
+                    //m_sp1.Write(txtSend.Text);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SEND 데이터 오류");
+            }
         }
 #endif
     }

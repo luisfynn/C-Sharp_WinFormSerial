@@ -31,6 +31,7 @@ namespace Massage_Chair
         SerialPort _serialPort;
         Thread _readThread;
         volatile bool _keepReading;
+        int _recvCount = 0;
 
         //begin Singleton pattern
         static readonly ComPort instance = new ComPort();
@@ -44,6 +45,7 @@ namespace Massage_Chair
         public ComPort()
         {
             _serialPort = new SerialPort();
+            _serialPort.ReadBufferSize = 1024;
             _readThread = null;
             _keepReading = false;
         }
@@ -58,9 +60,9 @@ namespace Massage_Chair
         //end Singleton pattern
 
         //begin Observer pattern
-        public delegate void EventHandler(string param);
-        public EventHandler StatusChanged;
-        public EventHandler DataReceived;
+        public delegate void EventDelegate(string param);
+        public EventDelegate StatusChanged;
+        public EventDelegate DataReceived;
         //end Observer pattern
 
         public void DiscardInBuffer()
@@ -68,7 +70,7 @@ namespace Massage_Chair
             _serialPort.DiscardInBuffer();
         }
 
-        protected  void StartReading()
+        private  void StartReading()
         {
             if (!_keepReading)
             {
@@ -83,6 +85,9 @@ namespace Massage_Chair
             if (_keepReading)
             {
                 _keepReading = false;
+                _readThread.Interrupt();
+                
+                //_readThread.Suspend();
                 _readThread.Join(); //block until exits
                 _readThread = null;
             }
@@ -91,12 +96,12 @@ namespace Massage_Chair
         /// <summary> Get the data and pass it on. </summary>
         private void ReadPort()
         {
+            byte[] readBuffer = new byte[_serialPort.ReadBufferSize];
+ 
             while (_keepReading)
             {
                 if (_serialPort.IsOpen)
                 {
-                    byte[] readBuffer = new byte[_serialPort.ReadBufferSize + 1];
-
                     try
                     {
                         // If there are bytes available on the serial port,
@@ -105,9 +110,12 @@ namespace Massage_Chair
                         // on the serial port, Read will block until at least one byte
                         // is available on the port, up until the ReadTimeout milliseconds
                         // have elapsed, at which time a TimeoutException will be thrown.
-                        int count = _serialPort.Read(readBuffer, 0, _serialPort.ReadBufferSize);
-                        //String SerialIn = System.Text.Encoding.Default.GetString(readBuffer, 0, count);
-                        String SerialIn = System.Text.Encoding.UTF7.GetString(readBuffer, 0, count);
+                        _recvCount = _serialPort.Read(readBuffer, 0, _serialPort.ReadBufferSize);
+                        //_recvCount = _serialPort.Read(readBuffer, 0, 1);
+
+                        //String SerialIn = System.Text.Encoding.Default.GetString(readBuffer, 0, _recvCount);
+                        string SerialIn = System.Text.Encoding.UTF7.GetString(readBuffer, 0, _recvCount);
+
                         DataReceived(SerialIn);
                        
                         //_serialPort.DiscardInBuffer();
@@ -230,6 +238,11 @@ namespace Massage_Chair
                 }
                 _serialPort.Write(data + lineEnding);
             }
+        }
+
+        public void Send(byte[] byteSendData, Int32 offset, int count)
+        {
+            _serialPort.Write(byteSendData, offset, count);
         }
     }
 }

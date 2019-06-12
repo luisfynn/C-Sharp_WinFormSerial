@@ -17,8 +17,8 @@ namespace Massage_Chair
             InitializeComponent();
         }
 
-        public delegate void TextEventHandler(string text);
-        public event TextEventHandler WriteTextEvent;
+        public delegate void TextEventHandler(string str);
+        //public event TextEventHandler WriteTextEvent;
 
 #if false
         private void button1_Click(object sender, EventArgs e)
