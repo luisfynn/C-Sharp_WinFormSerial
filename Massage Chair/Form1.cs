@@ -16,6 +16,8 @@ namespace Massage_Chair
         const int btFirstX = 125;
         const int btInverval = 24;
 
+        int[] ButtonPress = new int[40];
+
         public static Form1 Instance
         {
             get
@@ -577,44 +579,44 @@ namespace Massage_Chair
 
             //this.pictureBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
 
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button1.Click += new System.EventHandler(this.Button_Click);
+            this.button2.Click += new System.EventHandler(this.Button_Click);
+            this.button3.Click += new System.EventHandler(this.Button_Click);
+            this.button4.Click += new System.EventHandler(this.Button_Click);
+            this.button5.Click += new System.EventHandler(this.Button_Click);
 
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.button6.Click += new System.EventHandler(this.Button_Click);
+            this.button7.Click += new System.EventHandler(this.Button_Click);
+            this.button8.Click += new System.EventHandler(this.Button_Click);
+            this.button9.Click += new System.EventHandler(this.Button_Click);
+            this.button10.Click += new System.EventHandler(this.Button_Click);
 
-            this.button11.Click += new System.EventHandler(this.button11_Click);
-            this.button12.Click += new System.EventHandler(this.button12_Click);
-            this.button13.Click += new System.EventHandler(this.button13_Click);
-            this.button14.Click += new System.EventHandler(this.button14_Click);
-            this.button15.Click += new System.EventHandler(this.button15_Click);
+            this.button11.Click += new System.EventHandler(this.Button_Click);
+            this.button12.Click += new System.EventHandler(this.Button_Click);
+            this.button13.Click += new System.EventHandler(this.Button_Click);
+            this.button14.Click += new System.EventHandler(this.Button_Click);
+            this.button15.Click += new System.EventHandler(this.Button_Click);
 
-            this.button16.Click += new System.EventHandler(this.button16_Click);
-            this.button17.Click += new System.EventHandler(this.button17_Click);
-            this.button18.Click += new System.EventHandler(this.button18_Click);
-            this.button19.Click += new System.EventHandler(this.button19_Click);
-            this.button20.Click += new System.EventHandler(this.button20_Click);
+            this.button16.Click += new System.EventHandler(this.Button_Click);
+            this.button17.Click += new System.EventHandler(this.Button_Click);
+            this.button18.Click += new System.EventHandler(this.Button_Click);
+            this.button19.Click += new System.EventHandler(this.Button_Click);
+            this.button20.Click += new System.EventHandler(this.Button_Click);
 
-            this.button21.Click += new System.EventHandler(this.button21_Click);
-            this.button22.Click += new System.EventHandler(this.button22_Click);
-            this.button23.Click += new System.EventHandler(this.button23_Click);
-            this.button24.Click += new System.EventHandler(this.button24_Click);
-            this.button25.Click += new System.EventHandler(this.button25_Click);
+            this.button21.Click += new System.EventHandler(this.Button_Click);
+            this.button22.Click += new System.EventHandler(this.Button_Click);
+            this.button23.Click += new System.EventHandler(this.Button_Click);
+            this.button24.Click += new System.EventHandler(this.Button_Click);
+            this.button25.Click += new System.EventHandler(this.Button_Click);
 
-            this.button26.Click += new System.EventHandler(this.button26_Click);
-            this.button27.Click += new System.EventHandler(this.button27_Click);
-            this.button28.Click += new System.EventHandler(this.button28_Click);
-            this.button29.Click += new System.EventHandler(this.button29_Click);
-            this.button30.Click += new System.EventHandler(this.button30_Click);
+            this.button26.Click += new System.EventHandler(this.Button_Click);
+            this.button27.Click += new System.EventHandler(this.Button_Click);
+            this.button28.Click += new System.EventHandler(this.Button_Click);
+            this.button29.Click += new System.EventHandler(this.Button_Click);
+            this.button30.Click += new System.EventHandler(this.Button_Click);
 
-            this.button31.Click += new System.EventHandler(this.button31_Click);
-            this.button32.Click += new System.EventHandler(this.button32_Click);
+            this.button31.Click += new System.EventHandler(this.Button_Click);
+            this.button32.Click += new System.EventHandler(this.Button_Click);
 
             this.button1.Size = new Size(btSizeWidth, btSizeHeight);
             this.button2.Size = new Size(btSizeWidth, btSizeHeight);
@@ -1101,6 +1103,55 @@ namespace Massage_Chair
         {
             //this.textBox2.Text = text;
         }
+
+        int result = 0;
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            //out int result = 0;
+            string buttonText = ((Button)sender).Text;
+            int.TryParse(buttonText, out result);
+
+            if (ButtonPress[result] == 0)
+            {
+                ButtonPress[result] = 1;
+
+                Form2 picture = new Form2();
+                picture.Show();
+                picture.received2(buttonText); //Form2로 데이터 전달
+            }
+            else
+            {
+                ButtonPress[result] = 0;
+                Form2 picture = new Form2();
+                picture.Close();
+            }
+
+#if false
+            switch (result)
+            {
+                case 1:
+                    if (ButtonPress[result] == 0)
+                    {
+                        ButtonPress[result] = 1;
+
+                        //this.pictureBox1.Show();
+                        //this.pictureBox1.Image = Properties.Resources._1;
+                        //this.pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+
+                        Form2 picture = new Form2();
+                        picture.Show();
+                        //frm2.WriteTextEvent += new Form2.TextEventHandler(frm2_WriteTextEvent);  // 델리게이트를 통한 이벤트 등록
+                        picture.received2(buttonText); //Form2로 데이터 전달
+                    }
+                    break;
+                default:
+                    break;
+            }
+#endif
+        }
+#endif
+#if false
         private void button1_Click(object sender, EventArgs e)
         {
             //this.pictureBox1.Show();
@@ -1333,39 +1384,46 @@ namespace Massage_Chair
             picture.Show();
             picture.received2(button32.Text); //Form2로 데이터 전달
         }
-
-        private void button33_Click(object sender, EventArgs e)
-        {
-            // HEXA 로 보낼때 필요한 변수
-            byte[] byteSendData = new byte[200];
-            int iSendCount = 0;  // 헥사로 보낼때의 데이터 수
-
-            ComPort com = ComPort.Instance;
-
-            try
-            {
-                if (true == checkBox1.Checked) // 헥사로 보낸다면
-                {
-                    foreach (string s in txtSend.Text.Split(' '))
-                    {
-                        if (null != s && "" != s)
-                            byteSendData[iSendCount++] = Convert.ToByte(s, 16);
-                    }
-                    com.Send(byteSendData, 0, iSendCount);
-                   // m_sp1.Write(byteSendData, 0, iSendCount);
-                }
-                else
-                {
-                    // string을 그대로 보내기
-                    com.Send(txtSend.Text);
-                    //m_sp1.Write(txtSend.Text);
-                }
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message, "SEND 데이터 오류");
-            }
-        }
 #endif
+
+            private void button33_Click(object sender, EventArgs e)
+            {
+                // HEXA 로 보낼때 필요한 변수
+                byte[] byteSendData = new byte[200];
+                int iSendCount = 0;  // 헥사로 보낼때의 데이터 수
+
+                ComPort com = ComPort.Instance;
+
+                try
+                {
+                    if (true == checkBox1.Checked) // 헥사로 보낸다면
+                    {
+                        foreach (string s in txtSend.Text.Split(' '))
+                        {
+                            if (null != s && "" != s)
+                                byteSendData[iSendCount++] = Convert.ToByte(s, 16);
+                        }
+                        com.Send(byteSendData, 0, iSendCount);
+                       // m_sp1.Write(byteSendData, 0, iSendCount);
+                    }
+                    else
+                    {
+                        // string을 그대로 보내기
+                        com.Send(txtSend.Text);
+                        //m_sp1.Write(txtSend.Text);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "SEND 데이터 오류");
+                }
+            }
+
+            public void PictureClose(ref string str)
+            {
+                int.TryParse(str, out result);
+
+                ButtonPress[result] = 0;
+            }
     }
 }

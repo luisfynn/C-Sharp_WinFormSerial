@@ -12,14 +12,15 @@ namespace Massage_Chair
 {
     public partial class Form2 : Form
     {
+        string RecvString;
+
         public Form2()
         {
             InitializeComponent();
         }
 
-        public delegate void TextEventHandler(string str);
-        //public event TextEventHandler WriteTextEvent;
-
+        //public delegate void RecvStringFromForm1(string str);
+  
 #if false
         private void button1_Click(object sender, EventArgs e)
         {
@@ -31,7 +32,9 @@ namespace Massage_Chair
         {
             //this.textBox2.Text = str;
             //textBox2.Invalidate();
-            switch(str)
+            RecvString = str;
+
+            switch (RecvString)
             {
                 case "1":
                     //this.pictureBox1.Show();
@@ -196,6 +199,13 @@ namespace Massage_Chair
                     break;
             }
            
+        }
+
+        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form1 MasterForm = new Form1();
+
+            MasterForm.PictureClose(ref RecvString);
         }
     }
 }
