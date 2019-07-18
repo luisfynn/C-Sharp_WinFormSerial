@@ -790,7 +790,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Massage_Chair.Properties.Resources.LIST2;
-            this.pictureBox1.Location = new System.Drawing.Point(937, 428);
+            this.pictureBox1.Location = new System.Drawing.Point(964, 428);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(310, 360);
             this.pictureBox1.TabIndex = 66;
@@ -871,7 +871,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "Serial Test Program V0.1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);

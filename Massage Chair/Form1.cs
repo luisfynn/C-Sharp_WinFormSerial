@@ -16,15 +16,12 @@ namespace Massage_Chair
         const int btFirstX = 125;
         const int btInverval = 24;
 
-        int[] ButtonPress = new int[40];
+        static int[] ButtonPress = new int[40];
+        Form2 picture;
 
-        public static Form1 Instance
-        {
-            get
-            {
-                return Instance;
-            }
-        }
+        //begin Singleton pattern
+        static readonly Form1 instance = new Form1();
+
         /// <summary>
         /// Class to keep track of string and color for lines in output window.
         /// </summary>
@@ -39,6 +36,7 @@ namespace Massage_Chair
                 ForeColor = color;
             }
         };
+
         int rxCount = 0;
         ArrayList lines = new ArrayList();
 
@@ -73,14 +71,13 @@ namespace Massage_Chair
 
             // let form use multiple fonts
             origFont = Font;
-            FontFamily ff = new FontFamily("Courier New");
-            monoFont = new Font(ff, 10, FontStyle.Regular);
+            FontFamily SerialFont = new FontFamily("Courier New");
+            monoFont = new Font(SerialFont, 10, FontStyle.Regular);
             Font = ComSetting.Option.MonoFont ? monoFont : origFont;
 
             ComPort com = ComPort.Instance;
             com.StatusChanged += OnStatusChanged;
             com.DataReceived += OnDataReceived;
-            com.Open();
         }
 
         // shutdown the worker thread when the form closes
@@ -420,16 +417,12 @@ namespace Massage_Chair
                 else if (c < 32 && c != 9)
                 {
                     StringOut = StringOut + "<" + charNames[c] + ">";
-
-                    //Uglier "Termite" style
-                    //StringOut = StringOut + String.Format("[{0:X2}]", (int)c);
                 }
                 else
                 {
                     StringOut = StringOut + c;
                 }
             }
-            //StringOut += Environment.NewLine;
             return StringOut;
         }
 
@@ -450,8 +443,6 @@ namespace Massage_Chair
             // if we have a partial line, add to it.
             if (partialLine != null)
             {
-                //rxCount++;
-
                 // tack it on
                 if (rxCount >= 50)
                 {
@@ -465,12 +456,8 @@ namespace Massage_Chair
              
                 outputList_Update(partialLine);
 
-                //ComPort com = ComPort.Instance;
-                //com.DiscardInBuffer();
-
                 return partialLine;
             }
-
             return outputList_Add(StringOut, receivedColor);
         }
 
@@ -479,18 +466,58 @@ namespace Massage_Chair
 
         /// <summary>
         /// Handle data received event from serial port.
-        /// </summary>
+        /// </summary>동시성이 있는 멀티 스레드 프로그램 환경에서  특정 스레드에서 생성된  Win Form 컨트롤 ( TextBox, ListView, Label, … )을 
+        /// 다른 스레드에서 접근할 때 발생한다.스레드에서 안전한 방식으로 컨트롤에 접근 하려면
+        /// 컨트롤을 생성한 스레드가 아닌 다른 스레드에서 윈 폼 컨트롤에 접근해야 할 때 적절한 방법으로 스레드 문제를 해결해야 한다
+
+        ///크로스 스레드 문제를 해결하는 방법은 Invoke 메소드를 사용하는 방법과 BackgroundWorker 를 사용하는 방법이 있다.
+        ///invoke 구현
+        ///컨트롤에 접근하고자 하는 스레드에서 InvokeRequired 멤버 값을 가져온다.
+        ///True를 반환하면 Invoke 메소드 호출을 필요로 하는 상태고, False를 반환하면 컨트롤에 직접 접근해도 문제가 없는 상태다.
+
+        ///https://docs.microsoft.com/ko-kr/dotnet/framework/winforms/controls/how-to-make-thread-safe-calls-to-windows-forms-controls
+
         /// <param name="data">incoming data</param>
+        public void OnDataInProcess(string dataIn)
+        {
+            //pause scrolling to speed up output of multiple lines
+            bool saveScrolling = scrolling;
+            //scrolling = false;
+            scrolling = true;
+
+            // if we detect a line terminator, add line to output
+            int index;
+
+            while (dataIn.Length > 0 &&
+                ((index = dataIn.IndexOf("\r")) != -1 ||
+                (index = dataIn.IndexOf("\n")) != -1))
+            {
+
+                String StringIn = dataIn.Substring(0, index);
+                dataIn = dataIn.Remove(0, index + 1);
+
+                logFile_writeLine(AddData(StringIn).Str);
+                partialLine = null; // terminate partial line
+            }
+
+            // if we have data remaining, add a partial line
+            if (dataIn.Length > 0)
+            {
+                partialLine = AddData(dataIn);
+            }
+
+            //ComPort com = ComPort.Instance;
+            //com.DiscardInBuffer();
+
+            // restore scrolling
+            scrolling = saveScrolling;
+            outputList_Scroll();
+        }
         public void OnDataReceived(string dataIn)
         {
-            //Handle multi-threading
-            //InvokeRequired : 다른 쓰레드로부터 호출되어 invoke가 필요한 상태를 체크해서 true, false로 리턴
-            //invoke가 필요한 상태일 때, invoke 메서드에 의해 호출될 OnDataReceived 를 델리게이트(함수포인터)로 넘겨서 실행시키면, 안정적으로
-            //UI 갱신
-
             if (InvokeRequired)
             {
-                StringDelegate _sdg = new StringDelegate(OnDataReceived);
+                StringDelegate _sdg = new StringDelegate(OnDataInProcess);
                 Invoke(_sdg, new object[] { dataIn });
                 //Invoke(new StringDelegate(OnDataReceived), new object[] { dataIn });
                 return;
@@ -498,38 +525,7 @@ namespace Massage_Chair
             else
             {
 #if true
-                //pause scrolling to speed up output of multiple lines
-                bool saveScrolling = scrolling;
-                //scrolling = false;
-                scrolling = true;
-
-                // if we detect a line terminator, add line to output
-                int index;
-
-                while (dataIn.Length > 0 &&
-                    ((index = dataIn.IndexOf("\r")) != -1 ||
-                    (index = dataIn.IndexOf("\n")) != -1))
-                {
-
-                    String StringIn = dataIn.Substring(0, index);
-                    dataIn = dataIn.Remove(0, index + 1);
-
-                    logFile_writeLine(AddData(StringIn).Str);
-                    partialLine = null; // terminate partial line
-                }
-
-                // if we have data remaining, add a partial line
-                if (dataIn.Length > 0)
-                {
-                    partialLine = AddData(dataIn);
-                }
-
-                //ComPort com = ComPort.Instance;
-                //com.DiscardInBuffer();
-
-                // restore scrolling
-                scrolling = saveScrolling;
-                outputList_Scroll();
+                OnDataInProcess(dataIn);
             }
 #endif
         }
@@ -577,7 +573,7 @@ namespace Massage_Chair
             this.txtSend.Multiline = false;
             this.txtSend.ReadOnly = false;
 
-            //this.pictureBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+            this.pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Top;
 
             this.button1.Click += new System.EventHandler(this.Button_Click);
             this.button2.Click += new System.EventHandler(this.Button_Click);
@@ -863,8 +859,6 @@ namespace Massage_Chair
             checkBox3.Checked = ComSetting.Option.LocalEcho;
             checkBox4.Checked = ComSetting.Option.StayOnTop;
             checkBox5.Checked = ComSetting.Option.FilterUseCase;
-
-            //textBox1.Text = ComSetting.Option.LogFileName;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -874,26 +868,21 @@ namespace Massage_Chair
             if (com.IsOpen)
             {
                 com.Close();
-                //com.Dispose();
-                //com = null;
             }
         }
 
 #region user_region
         private void btnOpen_Click(object sender, EventArgs e)
         {
+            //read port status
             ComSetting.Port.PortName = ComboPortList.Text;
-            //MessageBox.Show(ComSetting.Port.PortName as string);
             ComSetting.Port.BaudRate = Int32.Parse(ComboBr.Text);
-            //MessageBox.Show(ComSetting.Port.BaudRate.ToString());
             ComSetting.Port.DataBits = ComboDb.SelectedIndex + 5;
-            //MessageBox.Show(ComSetting.Port.DataBits.ToString());
             ComSetting.Port.Parity = (Parity)ComboParity.SelectedIndex;
-            //MessageBox.Show(ComSetting.Port.Parity.ToString());
             ComSetting.Port.StopBits = (StopBits)ComboSb.SelectedIndex;
-            //MessageBox.Show(ComSetting.Port.StopBits.ToString());
             ComSetting.Port.Handshake = (Handshake)ComboFlow.SelectedIndex;
 
+            //read port option
             if (radioButton2.Checked)
                 ComSetting.Option.AppendToSend = ComSetting.Option.AppendType.AppendCR;
             else if (radioButton3.Checked)
@@ -914,17 +903,14 @@ namespace Massage_Chair
             if (com.IsOpen)
             {
                 com.Close();
-                btnOpen.Text = "connect";
+                btnOpen.Text = "disconnect";
             }
             else
             {
-                //com.StatusChanged += OnStatusChanged;
-                //com.DataReceived += OnDataReceived;
                 com.Open();
                 richTextBox1.Focus();
-                btnOpen.Text = "disconnect";
+                btnOpen.Text = "connect";
             }
-
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -1086,18 +1072,6 @@ namespace Massage_Chair
         }
 #endregion
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ComPort com = ComPort.Instance;
-
-            if (com.IsOpen)
-            {
-                com.Close();
-                //com.Dispose();
-                //com = null;
-            }
-        }
-
 #if true
         void frm2_WriteTextEvent(string text, EventArgs e)
         {
@@ -1105,6 +1079,14 @@ namespace Massage_Chair
         }
 
         int result = 0;
+
+        public static Form1 Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         private void Button_Click(object sender, EventArgs e)
         {
@@ -1116,17 +1098,17 @@ namespace Massage_Chair
             {
                 ButtonPress[result] = 1;
 
-                Form2 picture = new Form2();
+                picture = new Form2();
+
                 picture.Show();
-                picture.received2(buttonText); //Form2로 데이터 전달
+                picture.Open(buttonText); //Form2로 데이터 전달
             }
             else
             {
                 ButtonPress[result] = 0;
-                Form2 picture = new Form2();
+
                 picture.Close();
             }
-
 #if false
             switch (result)
             {
@@ -1385,7 +1367,6 @@ namespace Massage_Chair
             picture.received2(button32.Text); //Form2로 데이터 전달
         }
 #endif
-
             private void button33_Click(object sender, EventArgs e)
             {
                 // HEXA 로 보낼때 필요한 변수
@@ -1394,15 +1375,19 @@ namespace Massage_Chair
 
                 ComPort com = ComPort.Instance;
 
+                byteSendData[0] = 0xa2;
+
                 try
                 {
                     if (true == checkBox1.Checked) // 헥사로 보낸다면
                     {
+                        /*
                         foreach (string s in txtSend.Text.Split(' '))
                         {
                             if (null != s && "" != s)
                                 byteSendData[iSendCount++] = Convert.ToByte(s, 16);
                         }
+                        */
                         com.Send(byteSendData, 0, iSendCount);
                        // m_sp1.Write(byteSendData, 0, iSendCount);
                     }
@@ -1419,7 +1404,7 @@ namespace Massage_Chair
                 }
             }
 
-            public void PictureClose(ref string str)
+            public void PictureClose(string str)
             {
                 int.TryParse(str, out result);
 
